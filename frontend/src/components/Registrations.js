@@ -50,7 +50,7 @@ class Registrations extends Component {
         }));
     }
 
-    toggleModal = () => {
+    toggleRegistrationModal = () => {
         this.setState({
             modalOpen: !this.state.modalOpen
         });
@@ -62,11 +62,11 @@ class Registrations extends Component {
         }));
     } 
     
-    onChange = e => {
+    onFormInputChange = e => {
         this.setState({ [e.target.name]: e.target.value });
     };
     
-    onSubmit = async (e) => {
+    submitRegistration = async (e) => {
         e.preventDefault();
     
         const projectId = this.state.chosenProject.id;
@@ -81,33 +81,8 @@ class Registrations extends Component {
         await this.loadProjects();
         
         this.chooseProject(projectId);
-        this.toggleModal();
+        this.toggleRegistrationModal();
     };
-    
-    chooseProject(id) {
-        const chosenProject = this.state.projects.find(p => p.id === id);
-        chosenProject.registrations = chosenProject.registrations.sort( (r1, r2) => new Date(r1.date) - new Date(r2.date) );
-
-        this.setState(state => ({
-            chosenProject,
-        }));
-    }
-
-    invoiceProject() {
-        const projectId = this.state.chosenProject.id;
-
-        const project = this.state.chosenProject;
-        project.isActive = false;
-
-        axios.post(`api/projects/${projectId}/invoice`).then(response => {
-            this.setState(state => ({
-                invoice: response.data,
-                chosenProject: project
-            }));
-
-            this.toggleInvoice();
-        });
-    }
 
     deleteRegistration = async (registrationId) => {
         const projectId = this.state.chosenProject.id;
@@ -125,6 +100,31 @@ class Registrations extends Component {
             chosenProject
         }));
     }
+    
+    invoiceProject() {
+        const projectId = this.state.chosenProject.id;
+
+        const project = this.state.chosenProject;
+        project.isActive = false;
+
+        axios.post(`api/projects/${projectId}/invoice`).then(response => {
+            this.setState(state => ({
+                invoice: response.data,
+                chosenProject: project
+            }));
+
+            this.toggleInvoice();
+        });
+    }
+
+    chooseProject(id) {
+        const chosenProject = this.state.projects.find(p => p.id === id);
+        chosenProject.registrations = chosenProject.registrations.sort( (r1, r2) => new Date(r1.date) - new Date(r2.date) );
+
+        this.setState(state => ({
+            chosenProject,
+        }));
+    }
 
     render() {
         const { projects, chosenProject } = this.state;
@@ -135,7 +135,7 @@ class Registrations extends Component {
 
         const registrationButtonText = (invoiceble)
             ? 'Add New Registration' 
-            : 'Project closed for registrations';
+            : 'Project closed for new registrations';
 
         return (
             <Fragment>
@@ -175,7 +175,7 @@ class Registrations extends Component {
                             <ListGroup>
                                 <Button
                                     color='dark'
-                                    onClick={this.toggleModal}
+                                    onClick={this.toggleRegistrationModal}
                                     disabled={!invoiceble}
                                     >
                                     {registrationButtonText}
@@ -184,6 +184,7 @@ class Registrations extends Component {
                                     <ListGroupItem key={index}>
                                         <Moment format="D MMM YYYY">{date}</Moment>: {hours} hours
                                         <Button
+                                            disabled={!invoiceble}
                                             className='remove-btn float-right'
                                             color='danger'
                                             size='sm'
@@ -199,10 +200,10 @@ class Registrations extends Component {
                 </Container>
 
                 {!!this.state.chosenProject && (
-                    <Modal isOpen={this.state.modalOpen} toggle={this.toggleModal}>
-                    <ModalHeader toggle={this.toggleModal}>Log Time for {this.state.chosenProject.projectName}</ModalHeader>
+                    <Modal isOpen={this.state.modalOpen} toggle={this.toggleRegistrationModal}>
+                    <ModalHeader toggle={this.toggleRegistrationModal}>Log Time for {this.state.chosenProject.projectName}</ModalHeader>
                     <ModalBody>
-                        <Form onSubmit={this.onSubmit}>
+                        <Form onSubmit={this.submitRegistration}>
                             <FormGroup>
                                 <Label for="date">Date</Label>
                                 <Input
@@ -210,7 +211,7 @@ class Registrations extends Component {
                                     name="date"
                                     id="date"
                                     placeholder="choose date"
-                                    onChange={this.onChange}
+                                    onChange={this.onFormInputChange}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -220,7 +221,7 @@ class Registrations extends Component {
                                     name='hours'
                                     id='hours'
                                     placeholder='hours to be invoiced'
-                                    onChange={this.onChange}
+                                    onChange={this.onFormInputChange}
                                 />
                                 <Button 
                                     disabled={!invoiceble}
