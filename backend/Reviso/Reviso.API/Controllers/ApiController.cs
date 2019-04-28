@@ -10,7 +10,7 @@ namespace Reviso.API.Controllers
     {
         private readonly IRegistrationService _registrationService;
 
-        public ApiController(IRegistrationService registrationService, IInvoiceService invoiceService)
+        public ApiController(IRegistrationService registrationService)
         {
             this._registrationService = registrationService;
         }
