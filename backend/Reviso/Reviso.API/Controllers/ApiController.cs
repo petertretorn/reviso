@@ -10,7 +10,7 @@ namespace Reviso.API.Controllers
     {
         private readonly IRegistrationService _registrationService;
 
-        public ApiController(IRegistrationService registrationService)
+        public ApiController(IRegistrationService registrationService, IInvoiceService invoiceService)
         {
             this._registrationService = registrationService;
         }
@@ -18,25 +18,25 @@ namespace Reviso.API.Controllers
         [HttpGet("projects")]
         public IActionResult GetProjects()
         {
-            var payload = _registrationService.GetProjects();
+            var projects = _registrationService.GetProjects();
 
-            return Ok(payload);
+            return Ok(projects);
         }
 
         [HttpGet("projects/{id}/registrations/")]
         public IActionResult GetRegistrationsForProject(int id)
         {
-            var payload = _registrationService.GetRegistrationsForProject(id);
+            var registrations = _registrationService.GetRegistrationsForProject(id);
 
-            return Ok(payload);
+            return Ok(registrations);
         }
 
         [HttpGet("registrations/{id}", Name = "GetRegistration")]
         public IActionResult GetRegistration(int id)
         {
-            var payload = _registrationService.GetRegistration(id);
+            var registration = _registrationService.GetRegistration(id);
 
-            return Ok(payload);
+            return Ok(registration);
         }
 
         [HttpPost("projects/{id}/registrations/")]
@@ -54,5 +54,7 @@ namespace Reviso.API.Controllers
 
             return NoContent();
         }
+
+        
     }
 }

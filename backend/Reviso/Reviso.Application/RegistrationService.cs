@@ -21,7 +21,7 @@ namespace Reviso.Application
 
         public IEnumerable<ProjectDto> GetProjects()
         {
-            var projects = _projectRepo.GetAllIncluding(p => p.TimeRegistrations);
+            var projects = _projectRepo.GetAllIncluding(p => p.TimeRegistrations, p => p.Contract.Customer);
 
             return projects.Select(p =>
                 new ProjectDto
@@ -30,7 +30,8 @@ namespace Reviso.Application
                     Start = p.Start,
                     End = p.End,
                     IsActive = p.IsActive,
-                    Name = p.Name,
+                    ProjectName = p.Name,
+                    Customer = p.Contract.Customer.Name,
                     Registrations = p.TimeRegistrations.Select(MapToRegistrationDto).ToList()
                 }
             );

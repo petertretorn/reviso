@@ -31,7 +31,8 @@ namespace Reviso.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddScoped<DbContext, RevisoContext>();
-            services.AddScoped<IRegistrationService, RegistrationService>();
+            services.AddScoped<IRegistrationService, RegistrationService>(); 
+            services.AddScoped<IInvoiceService, InvoiceService>();
             services.AddScoped<ICalculateService, CalculateService>();
             services.AddScoped<ICalculateStrategy, CalculateStrategy>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

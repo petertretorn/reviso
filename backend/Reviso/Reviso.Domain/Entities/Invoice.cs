@@ -8,17 +8,17 @@ namespace Reviso.Domain.Entities
         public static Invoice Create(Project project, decimal netAmmount) => new Invoice()
         {
             Net = netAmmount,
+            Project = project,
             Customer = project.Contract.Customer,
             Vat = project.Contract.VatRate * netAmmount,
             InvoiceDate = DateTime.Now.Date,
         };
 
         public Customer Customer { get; set; }
+        public Project Project { get; set; }
         public DateTime InvoiceDate { get; set; }
         public DateTime DueDate { get; set; }
 
-        public string Description { get; set; }
-        
         public decimal Net { get; set; }
         
         public decimal Vat { get; set; }

@@ -1,7 +1,10 @@
-﻿namespace Reviso.Application
+﻿using Reviso.Application.Dtos;
+
+namespace Reviso.Application
 {
     public interface IInvoiceService
     {
-        void CreateInvoice(int projectId);
+        InvoiceDto CreateInvoice(int projectId);
+        InvoiceDto GetInvoice(int id);
     }
 }
