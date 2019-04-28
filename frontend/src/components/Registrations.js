@@ -96,9 +96,13 @@ class Registrations extends Component {
     invoiceProject() {
         const projectId = this.state.chosenProject.id;
 
+        const project = this.state.chosenProject;
+        project.isActive = false;
+
         axios.post(`api/projects/${projectId}/invoice`).then(response => {
             this.setState(state => ({
-                invoice: response.data
+                invoice: response.data,
+                chosenProject: project
             }));
 
             this.toggleInvoice();
@@ -124,6 +128,14 @@ class Registrations extends Component {
 
     render() {
         const { projects, chosenProject } = this.state;
+        const invoiceble = (!!chosenProject && chosenProject.isActive)
+        const invoiceButtonText = (invoiceble)
+            ? 'Close and Invoice Project' 
+            : 'Project closed and invoiced';
+
+        const registrationButtonText = (invoiceble)
+            ? 'Add New Registration' 
+            : 'Project closed for registrations';
 
         return (
             <Fragment>
@@ -153,8 +165,9 @@ class Registrations extends Component {
                                         </CardText>
                                         <Button 
                                             color='success'
+                                            disabled={!invoiceble}
                                             onClick={() => this.invoiceProject()}
-                                            >Close and Invoice Project</Button>
+                                            >{invoiceButtonText}</Button>
                                     </Card>
                                 </Col>
                             </Row>
@@ -163,8 +176,9 @@ class Registrations extends Component {
                                 <Button
                                     color='dark'
                                     onClick={this.toggleModal}
+                                    disabled={!invoiceble}
                                     >
-                                    Add New Registration
+                                    {registrationButtonText}
                                 </Button>
                                 {chosenProject.registrations.map( ({ date, hours, id }, index) => (
                                     <ListGroupItem key={index}>
@@ -184,8 +198,9 @@ class Registrations extends Component {
                     )}
                 </Container>
 
-                <Modal isOpen={this.state.modalOpen} toggle={this.toggleModal}>
-                    <ModalHeader toggle={this.toggleModal}>Add Time Registration</ModalHeader>
+                {!!this.state.chosenProject && (
+                    <Modal isOpen={this.state.modalOpen} toggle={this.toggleModal}>
+                    <ModalHeader toggle={this.toggleModal}>Log Time for {this.state.chosenProject.projectName}</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={this.onSubmit}>
                             <FormGroup>
@@ -207,15 +222,19 @@ class Registrations extends Component {
                                     placeholder='hours to be invoiced'
                                     onChange={this.onChange}
                                 />
-                                <Button color='dark' style={{ marginTop: '2rem' }} block>
-                                    Add Registration
+                                <Button 
+                                    disabled={!invoiceble}
+                                    color='dark'
+                                    style={{ marginTop: '2rem' }} block>
+                                    {registrationButtonText}
                                 </Button>
                             </FormGroup>
                         </Form>
                     </ModalBody>
-                </Modal>
-
-                {this.state.invoice && (
+                    </Modal>
+                )}
+                
+                {!!this.state.invoice && (
                     <Modal isOpen={this.state.viewInvoice} toggle={this.toggleInvoice}>
                         <ModalHeader toggle={this.toggleInvoice}>Invoice for {this.state.invoice.customer}</ModalHeader>
                         <ModalBody>
