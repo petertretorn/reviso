@@ -1,7 +1,5 @@
 # reviso
 
-Backend done with ASP.NET Core and EF Core code first.
-
 To run backend first apply migrations: 
 
 Visual Studio: Update-Database
