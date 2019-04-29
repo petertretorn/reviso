@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Reviso.Domain.Entities;
 
-namespace Reviso.Domain.Dtos
+namespace Reviso.Application.Dtos
 {
     public class ProjectDto
     {
@@ -14,6 +12,6 @@ namespace Reviso.Domain.Dtos
         public string Customer { get; set; }
         public bool IsActive { get; set; }
         public List<RegistrationDto> Registrations { get; set; }
-        public Invoice Invoice { get; set; }
+        public InvoiceDto Invoice { get; set; }
     }
 }

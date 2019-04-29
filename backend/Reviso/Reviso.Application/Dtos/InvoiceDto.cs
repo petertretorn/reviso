@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Reviso.Domain.Dtos
+namespace Reviso.Application.Dtos
 {
     public class InvoiceDto
     {
@@ -12,6 +10,6 @@ namespace Reviso.Domain.Dtos
         public decimal Vat { get; set; }
         public DateTime InvoiceDate { get; set; }
         public DateTime DueDate { get; set; }
-        public object Id { get; set; }
+        public int Id { get; set; }
     }
 }

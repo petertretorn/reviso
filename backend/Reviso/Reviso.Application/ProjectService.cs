@@ -1,6 +1,5 @@
-﻿using Reviso.Domain.Dtos;
+﻿using Reviso.Application.Dtos;
 using Reviso.Domain.Entities;
-using Reviso.Domain.Factories;
 using Reviso.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,12 +9,12 @@ namespace Reviso.Application
 {
     public class ProjectService : IProjectService
     {
-        private readonly ICalculateService this_calculateService;
+        private readonly IInvoiceService _invoiceService;
         private readonly IRepository<Project> _projectRepo;
 
-        public ProjectService(ICalculateService calculateService, IRepository<Project> projectRepo)
+        public ProjectService(IInvoiceService invoiceService, IRepository<Project> projectRepo)
         {
-            this_calculateService = calculateService;
+            this._invoiceService = invoiceService;
             this._projectRepo = projectRepo;
         }
 
@@ -31,7 +30,7 @@ namespace Reviso.Application
         
         public ProjectDto CreateProject(CreateEditProjectDto dto)
         {
-            var project = ProjectFactory.Create(dto);
+            var project = Mappers.MapToProject(dto);
 
             _projectRepo.Add(project);
 
@@ -50,7 +49,7 @@ namespace Reviso.Application
 
             project.Close();
 
-            var invoice = this_calculateService.CalculateInvoice(project);
+            var invoice = _invoiceService.CalculateInvoice(project);
             project.Invoice = invoice;
 
             _projectRepo.Update(project);

@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace Reviso.Domain.Services
 {
-    public class CalculateService : ICalculateService
+    public class InvoiceService : IInvoiceService
     {
         private readonly ICalculateStrategy _strategy;
 
-        public CalculateService(ICalculateStrategy strategy)
+        public InvoiceService(ICalculateStrategy strategy)
         {
             this._strategy = strategy;
         }

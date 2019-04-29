@@ -35,7 +35,7 @@ namespace Reviso.Tests
             SetupProject(project, intervals, registrations);
 
             //act
-            var sut = new CalculateService(new CalculateStrategy());
+            var sut = new InvoiceService(new CalculateStrategy());
             var invoice = sut.CalculateInvoice(project);
 
             //assert
@@ -75,7 +75,7 @@ namespace Reviso.Tests
 
             project.Close();
 
-            var sut = new CalculateService(new CalculateStrategy());
+            var sut = new InvoiceService(new CalculateStrategy());
 
             //act
             var invoice = sut.CalculateInvoice(project);
@@ -93,6 +93,10 @@ namespace Reviso.Tests
             var contract = new Contract()
             {
                 BaseRate = 100,
+                Customer = new Customer
+                {
+                    Name = "Test"
+                }
             };
 
             var project = new Project

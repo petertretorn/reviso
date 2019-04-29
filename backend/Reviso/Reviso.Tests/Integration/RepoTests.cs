@@ -1,8 +1,7 @@
 ﻿using Reviso.Application;
+using Reviso.Application.Dtos;
 using Reviso.Data;
-using Reviso.Domain.Dtos;
 using Reviso.Domain.Entities;
-using Reviso.Domain.Factories;
 using System;
 using System.Linq;
 using Xunit;
@@ -91,7 +90,7 @@ namespace Reviso.Tests.Integration
         {
             using (var repo = new Repository<Project>(new RevisoContext()))
             {
-                var project = ProjectFactory.Create(dto);
+                var project = Mappers.MapToProject(dto);
 
                 repo.Add(project);
 

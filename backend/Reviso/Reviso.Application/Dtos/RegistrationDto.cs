@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Reviso.Domain.Dtos
+namespace Reviso.Application.Dtos
 {
     public class RegistrationDto
     {

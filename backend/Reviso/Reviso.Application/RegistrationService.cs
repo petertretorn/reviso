@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Reviso.Domain.Dtos;
+using Reviso.Application.Dtos;
 using Reviso.Domain.Entities;
 using Reviso.Domain.Interfaces;
 

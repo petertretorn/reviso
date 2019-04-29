@@ -2,7 +2,7 @@
 
 namespace Reviso.Domain.Interfaces
 {
-    public interface ICalculateService
+    public interface IInvoiceService
     {
         Invoice CalculateInvoice(Project project);
     }

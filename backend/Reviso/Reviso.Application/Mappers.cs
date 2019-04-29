@@ -1,5 +1,7 @@
-﻿using Reviso.Domain.Dtos;
+﻿using Reviso.Application.Dtos;
 using Reviso.Domain.Entities;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Reviso.Application
@@ -27,8 +29,35 @@ namespace Reviso.Application
                 IsActive = p.IsActive,
                 ProjectName = p.Name,
                 Customer = p.Contract.Customer.Name,
-                Invoice = p.Invoice,
+                Invoice = (p.Invoice is null) ? null: MapToInvoiceDto(p.Invoice),
                 Registrations = p.TimeRegistrations.Select(Mappers.MapToRegistrationDto).ToList()
+            };
+        }
+
+        public static Project MapToProject(CreateEditProjectDto dto)
+        {
+            return new Project
+            {
+                Name = dto.Project,
+                Start = dto.Start,
+                Contract = new Contract
+                {
+                    BaseRate = dto.BaseRate,
+                    VatRate = dto.VatRate,
+                    RateIntervals = new List<RateInterval>
+                    {
+                        new RateInterval
+                        {
+                            FromHours = 0,
+                            ToHours = Int32.MaxValue,
+                            DiscountFactor = 0
+                        }
+                    },
+                    Customer = new Customer
+                    {
+                        Name = dto.Customer
+                    }
+                }
             };
         }
 
@@ -36,8 +65,7 @@ namespace Reviso.Application
         {
             return new InvoiceDto
             {
-                Id = invoice.Id,
-                Customer = invoice.Customer.Name,
+                Customer = invoice.Customer,
                 InvoiceDate = invoice.InvoiceDate,
                 Net = invoice.Net,
                 Project = invoice.Project,

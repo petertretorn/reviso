@@ -9,12 +9,12 @@ namespace Reviso.Domain.Entities
         {
             Net = netAmmount,
             Project = project.Name,
-            Customer = project.Contract.Customer,
+            Customer = project.Contract.Customer.Name,
             Vat = project.Contract.VatRate * netAmmount,
             InvoiceDate = DateTime.Now.Date,
         };
 
-        public Customer Customer { get; set; }
+        public string Customer { get; set; }
         public string Project { get; set; }
         public int ProjectId { get; set; }
         public DateTime InvoiceDate { get; set; }

@@ -172,7 +172,7 @@ class Registrations extends Component {
 
         const registrationButtonText = (invoiceble)
             ? 'Add New Registration' 
-            : 'Project closed time registrations';
+            : 'Project closed for registrations';
 
         const invoiceButtonFn = (invoiceble)
             ? () => this.invoiceProject()
@@ -206,7 +206,7 @@ class Registrations extends Component {
                         <Col sm="12" md="6">
                         {chosenProject && (
                             <Card body outline color="primary" className="mb-3">
-                                <CardTitle>{chosenProject.projectName}</CardTitle>
+                                <CardTitle><h5>{chosenProject.projectName}</h5></CardTitle>
                                 <CardText>
                                     Started on <Moment format="D MMM YYYY">{chosenProject.start}</Moment> for customer {chosenProject.customer}
                                 </CardText>
@@ -288,7 +288,7 @@ class Registrations extends Component {
                     <Modal isOpen={this.state.viewInvoice} toggle={this.toggleInvoice}>
                         <ModalHeader toggle={this.toggleInvoice}>Invoice for {this.state.invoice.customer}</ModalHeader>
                         <ModalBody>
-                            <h4>Project: {this.state.invoice.project}</h4>
+                            <h5>Project: {this.state.invoice.project}</h5>
                             <p>Net Ammount: {this.state.invoice.net}</p>
                             <p>Vat: {this.state.invoice.vat}</p>
                             <p>Total: {parseFloat(this.state.invoice.vat) + parseFloat(this.state.invoice.net)}</p>

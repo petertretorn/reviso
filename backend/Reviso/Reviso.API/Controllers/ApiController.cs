@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Reviso.Application;
-using Reviso.Domain.Dtos;
+using Reviso.Application.Dtos;
 
 namespace Reviso.API.Controllers
 {
@@ -46,7 +46,5 @@ namespace Reviso.API.Controllers
 
             return NoContent();
         }
-
-        
     }
 }
