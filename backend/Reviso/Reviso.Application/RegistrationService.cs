@@ -18,24 +18,6 @@ namespace Reviso.Application
             this._registrationRepo = registrationRepo;
         }
 
-        public IEnumerable<ProjectDto> GetProjects()
-        {
-            var projects = _projectRepo.GetAllIncluding(p => p.TimeRegistrations, p => p.Contract.Customer);
-
-            return projects.Select(p =>
-                new ProjectDto
-                {
-                    Id = p.Id,
-                    Start = p.Start,
-                    End = p.End,
-                    IsActive = p.IsActive,
-                    ProjectName = p.Name,
-                    Customer = p.Contract.Customer.Name,
-                    Registrations = p.TimeRegistrations.Select(MapToRegistrationDto).ToList()
-                }
-            );
-        }
-
         public int AddRegistration(RegistrationDto registration)
         {
             var project = _projectRepo.GetByIdIncluding(registration.ProjectId, p => p.TimeRegistrations);
@@ -60,7 +42,7 @@ namespace Reviso.Application
         {
             var registration = _registrationRepo.GetById(id);
 
-            return MapToRegistrationDto(registration);
+            return Mappers.MapToRegistrationDto(registration);
         }
 
         public IEnumerable<RegistrationDto> GetRegistrationsForProject(int projectId)
@@ -68,19 +50,8 @@ namespace Reviso.Application
             var project = _projectRepo.GetByIdIncluding(projectId, p => p.TimeRegistrations);
 
             return project.TimeRegistrations
-                .Select(MapToRegistrationDto)
+                .Select(Mappers.MapToRegistrationDto)
                 .ToList();
-        }
-
-        private RegistrationDto MapToRegistrationDto(TimeRegistration registration)
-        {
-            return new RegistrationDto()
-            {
-                Id = registration.Id,
-                Date = registration.Date,
-                Hours = registration.Hours,
-                ProjectId = registration.ProjectId
-            };
         }
     }
 }

@@ -15,14 +15,6 @@ namespace Reviso.API.Controllers
             this._registrationService = registrationService;
         }
 
-        [HttpGet("projects")]
-        public IActionResult GetProjects()
-        {
-            var projects = _registrationService.GetProjects();
-
-            return Ok(projects);
-        }
-
         [HttpGet("projects/{id}/registrations/")]
         public IActionResult GetRegistrationsForProject(int id)
         {

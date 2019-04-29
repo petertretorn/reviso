@@ -4,6 +4,7 @@ using Reviso.Domain.Factories;
 using Reviso.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Reviso.Application
 {
@@ -18,11 +19,23 @@ namespace Reviso.Application
             this._projectRepo = projectRepo;
         }
 
-        public void CreateProject(CreateEditProjectDto dto)
+        public IEnumerable<ProjectDto> GetProjects()
+        {
+            var projects = _projectRepo.GetAllIncluding(p => p.TimeRegistrations, p => p.Contract.Customer);
+
+            return projects.Select(Mappers.MapToProjectDto);
+        }
+
+        
+        public ProjectDto CreateProject(CreateEditProjectDto dto)
         {
             var project = ProjectFactory.Create(dto);
 
-            //_projectRepo.
+            _projectRepo.Add(project);
+
+            dto.Id = project.Id;
+
+            return Mappers.MapToProjectDto(project);
         }
 
         public InvoiceDto InvoiceProject(int projectId)

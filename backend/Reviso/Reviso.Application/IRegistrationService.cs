@@ -8,7 +8,6 @@ namespace Reviso.Application
         int AddRegistration(RegistrationDto registration);
         IEnumerable<RegistrationDto> GetRegistrationsForProject(int projectId);
         RegistrationDto GetRegistration(int id);
-        IEnumerable<ProjectDto> GetProjects();
         void DeleteRegistration(int registration);
     }
 }
