@@ -1,5 +1,4 @@
 # reviso
-Time Registration with React and ASP.NET Core
 
 Backend done with ASP.NET Core and EF Core code first.
 
