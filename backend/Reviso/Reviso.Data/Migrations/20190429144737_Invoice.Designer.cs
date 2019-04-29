@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reviso.Data;
 
 namespace Reviso.Data.Migrations
 {
     [DbContext(typeof(RevisoContext))]
-    partial class RevisoContextModelSnapshot : ModelSnapshot
+    [Migration("20190429144737_Invoice")]
+    partial class Invoice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,8 +102,6 @@ namespace Reviso.Data.Migrations
                     b.Property<DateTime>("InvoiceDate");
 
                     b.Property<decimal>("Net");
-
-                    b.Property<string>("Project");
 
                     b.Property<int>("ProjectId");
 
@@ -267,7 +267,7 @@ namespace Reviso.Data.Migrations
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("Reviso.Domain.Entities.Project")
+                    b.HasOne("Reviso.Domain.Entities.Project", "Project")
                         .WithOne("Invoice")
                         .HasForeignKey("Reviso.Domain.Entities.Invoice", "ProjectId")
                         .OnDelete(DeleteBehavior.Cascade);

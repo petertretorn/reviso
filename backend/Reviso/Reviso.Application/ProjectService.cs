@@ -21,11 +21,13 @@ namespace Reviso.Application
 
         public IEnumerable<ProjectDto> GetProjects()
         {
-            var projects = _projectRepo.GetAllIncluding(p => p.TimeRegistrations, p => p.Contract.Customer);
+            var projects = _projectRepo.GetAllIncluding(
+                p => p.TimeRegistrations, 
+                p => p.Contract.Customer, 
+                p => p.Invoice);
 
             return projects.Select(Mappers.MapToProjectDto);
         }
-
         
         public ProjectDto CreateProject(CreateEditProjectDto dto)
         {
@@ -41,25 +43,19 @@ namespace Reviso.Application
         public InvoiceDto InvoiceProject(int projectId)
         {
             var project = _projectRepo.GetByIdIncluding(projectId,
-                p => p.TimeRegistrations, 
-                p => p.Contract.Customer, 
+                p => p.TimeRegistrations,
+                p => p.Contract.Customer,
                 p => p.Contract.RateIntervals
             );
 
             project.Close();
-            //_projectRepo.Update(project);
 
             var invoice = this_calculateService.CalculateInvoice(project);
+            project.Invoice = invoice;
 
-            return new InvoiceDto
-            {
-                Id = invoice.Id,
-                Customer = invoice.Customer.Name,
-                InvoiceDate = invoice.InvoiceDate,
-                Net = invoice.Net,
-                Project = invoice.Project.Name,
-                Vat = invoice.Vat
-            };
+            _projectRepo.Update(project);
+
+            return Mappers.MapToInvoiceDto(invoice);
         }
 
         public InvoiceDto GetInvoice(int id)

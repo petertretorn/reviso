@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reviso.Data;
 
 namespace Reviso.Data.Migrations
 {
     [DbContext(typeof(RevisoContext))]
-    partial class RevisoContextModelSnapshot : ModelSnapshot
+    [Migration("20190429150359_circilar_dependency_fix")]
+    partial class circilar_dependency_fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

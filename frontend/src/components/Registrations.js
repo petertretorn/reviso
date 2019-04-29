@@ -131,11 +131,12 @@ class Registrations extends Component {
     
     invoiceProject() {
         const projectId = this.state.chosenProject.id;
-
         const project = this.state.chosenProject;
-        project.isActive = false;
 
         axios.post(`api/projects/${projectId}/invoice`).then(response => {
+            project.invoice = response.data;
+            project.isActive = false;
+
             this.setState(state => ({
                 invoice: response.data,
                 chosenProject: project
@@ -143,6 +144,12 @@ class Registrations extends Component {
 
             this.toggleInvoice();
         });
+    }
+
+    viewInvoice() {
+        this.setState(state => ({
+            invoice: this.state.chosenProject.invoice
+        }), this.toggleInvoice() );
     }
 
     chooseProject(id) {
@@ -161,11 +168,15 @@ class Registrations extends Component {
         const invoiceble = (!!chosenProject && chosenProject.isActive)
         const invoiceButtonText = (invoiceble)
             ? 'Close and Invoice Project' 
-            : 'Project closed and invoiced';
+            : 'View Created Invoice';
 
         const registrationButtonText = (invoiceble)
             ? 'Add New Registration' 
-            : 'Project closed for new registrations';
+            : 'Project closed time registrations';
+
+        const invoiceButtonFn = (invoiceble)
+            ? () => this.invoiceProject()
+            : () => this.viewInvoice()
 
         return (
             <Fragment>
@@ -201,8 +212,7 @@ class Registrations extends Component {
                                 </CardText>
                                 <Button 
                                     color='secondary'
-                                    disabled={!invoiceble}
-                                    onClick={() => this.invoiceProject()}
+                                    onClick={invoiceButtonFn}
                                     >{invoiceButtonText}</Button>
                             </Card>
                         )}

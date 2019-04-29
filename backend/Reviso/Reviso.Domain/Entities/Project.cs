@@ -14,6 +14,7 @@ namespace Reviso.Domain.Entities
 
         public DateTime Start{ get; set; }
         public DateTime End { get; set; }
+        public Invoice Invoice { get; set; }
         public Contract Contract { get; set; }
         public string Name { get; set; }
 
