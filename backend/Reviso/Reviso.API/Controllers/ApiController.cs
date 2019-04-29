@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Reviso.Application;
-using Reviso.Application.Dtos;
+using Reviso.Domain.Dtos;
 
 namespace Reviso.API.Controllers
 {

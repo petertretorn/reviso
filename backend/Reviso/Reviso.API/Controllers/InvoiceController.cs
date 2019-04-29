@@ -11,9 +11,9 @@ namespace Reviso.API.Controllers
     [ApiController]
     public class InvoiceController : Controller
     {
-        private readonly IInvoiceService _invoiceService;
+        private readonly IProjectService _invoiceService;
 
-        public InvoiceController(IInvoiceService invoiceService)
+        public InvoiceController(IProjectService invoiceService)
         {
             this._invoiceService = invoiceService;
         }
@@ -29,7 +29,7 @@ namespace Reviso.API.Controllers
         [HttpPost("projects/{id}/invoice")]
         public IActionResult InvoiceProject(int id)
         {
-            var invoice = _invoiceService.CreateInvoice(id);
+            var invoice = _invoiceService.InvoiceProject(id);
 
             return CreatedAtRoute("GetInvoice", new { id = invoice.Id }, invoice);
         }

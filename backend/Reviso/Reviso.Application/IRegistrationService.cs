@@ -1,4 +1,4 @@
-﻿using Reviso.Application.Dtos;
+﻿using Reviso.Domain.Dtos;
 using System.Collections.Generic;
 
 namespace Reviso.Application

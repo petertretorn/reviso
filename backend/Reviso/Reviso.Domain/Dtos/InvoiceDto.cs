@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Reviso.Application.Dtos
+namespace Reviso.Domain.Dtos
 {
     public class InvoiceDto
     {

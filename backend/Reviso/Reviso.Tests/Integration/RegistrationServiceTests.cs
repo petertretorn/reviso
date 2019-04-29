@@ -23,10 +23,10 @@ namespace Reviso.Tests.Integration
             //assert
             Assert.NotEmpty(registrations);
 
-            var expected = 7;
-            var actual = registrations.Count();
+            var count = registrations.Count();
+            var shouldBeTrue = count > 0;
 
-            Assert.Equal(expected, actual);
+            Assert.True(shouldBeTrue);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Reviso.API
 
             services.AddScoped<DbContext, RevisoContext>();
             services.AddScoped<IRegistrationService, RegistrationService>(); 
-            services.AddScoped<IInvoiceService, InvoiceService>();
+            services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ICalculateService, CalculateService>();
             services.AddScoped<ICalculateStrategy, CalculateStrategy>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

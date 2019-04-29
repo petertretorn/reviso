@@ -11,6 +11,7 @@ namespace Reviso.Data
     public class Repository<T> : IRepository<T> where T : IEntity, new()
     {
         private DbContext _context;
+        private bool _disposed;
         protected DbSet<T> _dbSet;
 
         public Repository(DbContext context)
@@ -48,6 +49,14 @@ namespace Reviso.Data
                     (current, includeProperty) => current.Include(includeProperty));
         }
 
+        public T Add(T t)
+        {
+            _dbSet.Add(t);
+            _context.SaveChanges();
+
+            return t;
+        }
+
         public void Update(T entity)
         {
             _dbSet.Update(entity);
@@ -60,10 +69,33 @@ namespace Reviso.Data
             _context.SaveChanges();
         }
 
+        public void Delete(T t)
+        {
+            _dbSet.Remove(t);
+            _context.SaveChanges();
+        }
+
         public int Commit()
         {
             return _context.SaveChanges();
         }
-        
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this._disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
+            this._disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

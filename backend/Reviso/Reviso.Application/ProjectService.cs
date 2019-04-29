@@ -1,21 +1,31 @@
-﻿using Reviso.Application.Dtos;
+﻿using Reviso.Domain.Dtos;
 using Reviso.Domain.Entities;
+using Reviso.Domain.Factories;
 using Reviso.Domain.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace Reviso.Application
 {
-    public class InvoiceService : IInvoiceService
+    public class ProjectService : IProjectService
     {
         private readonly ICalculateService this_calculateService;
         private readonly IRepository<Project> _projectRepo;
 
-        public InvoiceService(ICalculateService calculateService, IRepository<Project> projectRepo)
+        public ProjectService(ICalculateService calculateService, IRepository<Project> projectRepo)
         {
             this_calculateService = calculateService;
             this._projectRepo = projectRepo;
         }
-        public InvoiceDto CreateInvoice(int projectId)
+
+        public void CreateProject(CreateEditProjectDto dto)
+        {
+            var project = ProjectFactory.Create(dto);
+
+            //_projectRepo.
+        }
+
+        public InvoiceDto InvoiceProject(int projectId)
         {
             var project = _projectRepo.GetByIdIncluding(projectId,
                 p => p.TimeRegistrations, 
