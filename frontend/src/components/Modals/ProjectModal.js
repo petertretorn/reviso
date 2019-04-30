@@ -36,7 +36,7 @@ class ProjectModal extends Component {
             vatRate: this.state.vatRate
         };
 
-        this.props.submitRegistration(newProject);
+        this.props.submitProject(newProject);
 
         this.toggleAddProject();
     };

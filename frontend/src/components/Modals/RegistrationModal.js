@@ -1,14 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import {
   Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
   Form,
   FormGroup,
   Label,
   Input
 } from 'reactstrap';
+
+import Modal from './ReactstrapModal'
 
 class RegistrationModal extends Component {
     state = {
@@ -41,6 +40,9 @@ class RegistrationModal extends Component {
     };
 
     render() {
+
+        const header = `Log Time for ${this.props.chosenProject.projectName}`;
+
         return (
             <Fragment>
                 <Button
@@ -50,41 +52,39 @@ class RegistrationModal extends Component {
                     >
                     {this.props.buttonText}
                 </Button>
-                <Modal isOpen={this.state.modalOpen} toggle={this.toggleRegistrationModal}>
-                    <ModalHeader toggle={this.toggleRegistrationModal}>Log Time for {this.props.chosenProject.projectName}</ModalHeader>
-                    <ModalBody>
-                        <Form onSubmit={this.submit}>
-                            <FormGroup>
-                                <Label for="date">Date</Label>
-                                <Input
-                                    type="date"
-                                    name="date"
-                                    id="date"
-                                    placeholder="choose date"
-                                    onChange={this.onFormInputChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for='hours'>Hours</Label>
-                                <Input
-                                    type='number'
-                                    name='hours'
-                                    id='hours'
-                                    placeholder='hours to be invoiced'
-                                    onChange={this.onFormInputChange}
-                                />
-                                <Button 
-                                    disabled={!this.props.invoiceble}
-                                    color='dark'
-                                    style={{ marginTop: '2rem' }} block>
-                                    {this.props.buttonText}
-                                </Button>
-                            </FormGroup>
-                        </Form>
-                    </ModalBody>
+
+                <Modal isOpen={this.state.modalOpen} toggle={this.toggleRegistrationModal} header={header}>
+                    <Form onSubmit={this.submit}>
+                        <FormGroup>
+                            <Label for="date">Date</Label>
+                            <Input
+                                type="date"
+                                name="date"
+                                id="date"
+                                placeholder="choose date"
+                                onChange={this.onFormInputChange}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for='hours'>Hours</Label>
+                            <Input
+                                type='number'
+                                name='hours'
+                                id='hours'
+                                placeholder='hours to be invoiced'
+                                onChange={this.onFormInputChange}
+                            />
+                            <Button 
+                                disabled={!this.props.invoiceble}
+                                color='dark'
+                                style={{ marginTop: '2rem' }} block>
+                                {this.props.buttonText}
+                            </Button>
+                        </FormGroup>
+                    </Form>
                 </Modal>
             </Fragment>
-        );
+        )
     }
 }
 
