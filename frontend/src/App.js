@@ -1,6 +1,6 @@
 import React from 'react';
-import AppNavbar from './components/AppNavbar';
-import Registrations from './components/Registrations';
+import Navbar from './components/Navbar';
+import Registrations from './components/Container/Registrations';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -8,7 +8,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <AppNavbar/>
+        <Navbar/>
         <Registrations/>
     </div>
   );
