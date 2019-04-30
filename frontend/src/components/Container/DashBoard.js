@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Moment from 'react-moment';
 import axios from 'axios';
 import { 
     Container, 
@@ -7,15 +6,14 @@ import {
     DropdownMenu, 
     DropdownToggle, 
     DropdownItem, 
-    ListGroup, 
-    ListGroupItem,
-    Row, Col,
-    Button } from 'reactstrap';
+    Row, 
+    Col } from 'reactstrap';
 
 import ProjectCard from '../View/ProjectCard';
 import ProjectModal from '../Modals/ProjectModal';
 import RegistrationModal from '../Modals/RegistrationModal';
 import InvoiceModal from '../Modals/InvoiceModal';
+import RegistrationList from '../View/RegistrationList'
 
 class Dashboard extends Component {
     state = {
@@ -124,16 +122,16 @@ class Dashboard extends Component {
 
     render() {
         const { projects, chosenProject } = this.state;
-        const invoiceble = (!!chosenProject && chosenProject.isActive)
-        const invoiceButtonText = (invoiceble)
+        const isInvoiceable = (!!chosenProject && chosenProject.isActive)
+        const invoiceButtonText = (isInvoiceable)
             ? 'Close and Invoice Project' 
             : 'View Created Invoice';
 
-        const registrationButtonText = (invoiceble)
+        const registrationButtonText = (isInvoiceable)
             ? 'Add New Registration' 
             : 'Project closed for registrations';
 
-        const invoiceButtonFn = (invoiceble)
+        const invoiceButtonFn = (isInvoiceable)
             ? () => this.invoiceProject()
             : () => this.viewInvoice()
 
@@ -159,39 +157,28 @@ class Dashboard extends Component {
 
                     <Col sm="12" md="6">
                         {chosenProject && (
-                            <ProjectCard 
-                                chosenProject={chosenProject}
-                                invoiceButtonFn={invoiceButtonFn}
-                                invoiceButtonText={invoiceButtonText}
-                            /> 
+                            <ProjectCard
+                                project={chosenProject}
+                                buttonFn={invoiceButtonFn}
+                                buttonText={invoiceButtonText}>
+                            </ProjectCard>
                         )}
                     </Col>
                 </Row>
 
                 {chosenProject && (
-                    <ListGroup>
+                    <RegistrationList
+                        project={chosenProject}
+                        isInvoiceable={isInvoiceable}
+                        deleteRegistration={this.deleteRegistration}
+                        >
                         <RegistrationModal 
-                            invoiceble={invoiceble} 
+                            isInvoiceable={isInvoiceable} 
                             buttonText={registrationButtonText}
                             chosenProject={chosenProject}
                             submitRegistration={this.submitRegistration}>
                         </RegistrationModal>
-                        
-                        {chosenProject.registrations.map( ({ date, hours, id }, index) => (
-                            <ListGroupItem key={index}>
-                                <Moment format="D MMM YYYY">{date}</Moment>: {hours} hours
-                                <Button
-                                    disabled={!invoiceble}
-                                    className='remove-btn float-right'
-                                    color='danger'
-                                    size='sm'
-                                    onClick={() => this.deleteRegistration(id)}
-                                    >
-                                    &times;
-                                </Button>
-                            </ListGroupItem>
-                        ))}
-                    </ListGroup>
+                    </RegistrationList>
                 )}
 
                 {!!this.state.invoice && (

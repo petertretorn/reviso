@@ -48,7 +48,7 @@ class RegistrationModal extends Component {
                 <Button
                     color='dark'
                     onClick={this.toggleRegistrationModal}
-                    disabled={!this.props.invoiceble}
+                    disabled={!this.props.isInvoiceable}
                     >
                     {this.props.buttonText}
                 </Button>
@@ -75,7 +75,7 @@ class RegistrationModal extends Component {
                                 onChange={this.onFormInputChange}
                             />
                             <Button 
-                                disabled={!this.props.invoiceble}
+                                disabled={!this.props.isInvoiceable}
                                 color='dark'
                                 style={{ marginTop: '2rem' }} block>
                                 {this.props.buttonText}
