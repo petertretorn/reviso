@@ -18,16 +18,14 @@ namespace Reviso.Application
             this._projectRepo = projectRepo;
         }
 
-        public IEnumerable<ProjectDto> GetProjects()
-        {
-            var projects = _projectRepo.GetAllIncluding(
-                p => p.TimeRegistrations, 
-                p => p.Contract.Customer, 
-                p => p.Invoice);
+        public IEnumerable<ProjectDto> GetProjects() =>
+            _projectRepo.GetAllIncluding(
+                    p => p.TimeRegistrations,
+                    p => p.Contract.Customer,
+                    p => p.Invoice
+                )
+                .Select(Mappers.MapToProjectDto);
 
-            return projects.Select(Mappers.MapToProjectDto);
-        }
-        
         public ProjectDto CreateProject(CreateEditProjectDto dto)
         {
             var project = Mappers.MapToProject(dto);

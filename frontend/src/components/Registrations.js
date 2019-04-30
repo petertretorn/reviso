@@ -16,12 +16,10 @@ import {
     FormGroup,
     Label,
     Input,
-    Card,
-    CardTitle,
-    CardText,
     Row, Col,
     Button } from 'reactstrap';
 import ProjectModal from './ProjectModal';
+import ProjectCard from './ProjectCard'
 
 class Registrations extends Component {
     state = {
@@ -184,18 +182,13 @@ class Registrations extends Component {
                         </Col>
 
                         <Col sm="12" md="6">
-                        {chosenProject && (
-                            <Card body outline color="primary" className="mb-3">
-                                <CardTitle><h5>{chosenProject.projectName}</h5></CardTitle>
-                                <CardText>
-                                    Started on <Moment format="D MMM YYYY">{chosenProject.start}</Moment> for customer {chosenProject.customer}
-                                </CardText>
-                                <Button 
-                                    color='secondary'
-                                    onClick={invoiceButtonFn}
-                                    >{invoiceButtonText}</Button>
-                            </Card>
-                        )}
+                            {chosenProject && (
+                                <ProjectCard 
+                                    chosenProject={chosenProject}
+                                    invoiceButtonFn={invoiceButtonFn}
+                                    invoiceButtonText={invoiceButtonText}
+                                /> 
+                            )}
                         </Col>
                     </Row>
 
