@@ -1,7 +1,7 @@
 import React from 'react';
 import Moment from 'react-moment';
 
-import Modal from './ReactstrapModal'
+import Modal from '../UI/ReactstrapModal'
 
 function InvoiceModal(props) {
 

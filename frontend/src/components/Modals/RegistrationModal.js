@@ -7,7 +7,7 @@ import {
   Input
 } from 'reactstrap';
 
-import Modal from './ReactstrapModal'
+import Modal from '../UI/ReactstrapModal'
 
 class RegistrationModal extends Component {
     state = {

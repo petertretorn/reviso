@@ -17,7 +17,7 @@ import ProjectModal from '../Modals/ProjectModal';
 import RegistrationModal from '../Modals/RegistrationModal';
 import InvoiceModal from '../Modals/InvoiceModal';
 
-class Registrations extends Component {
+class Dashboard extends Component {
     state = {
         projects: [],
         chosenProject: null,
@@ -206,4 +206,4 @@ class Registrations extends Component {
     }
 }
 
-export default Registrations;
+export default Dashboard;
