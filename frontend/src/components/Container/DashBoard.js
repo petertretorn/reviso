@@ -13,7 +13,9 @@ import ProjectCard from '../View/ProjectCard';
 import ProjectModal from '../Modals/ProjectModal';
 import RegistrationModal from '../Modals/RegistrationModal';
 import InvoiceModal from '../Modals/InvoiceModal';
-import RegistrationList from '../View/RegistrationList'
+import RegistrationList from '../View/RegistrationList';
+
+import formModalBase from '../HOC/formModalBase';
 
 class Dashboard extends Component {
     state = {
@@ -43,7 +45,6 @@ class Dashboard extends Component {
     }
 
     toggleInvoice = () => {
-        console.log('toggleInvoice')
         this.setState(state => ({
             viewInvoice: !state.viewInvoice
         }));
@@ -52,7 +53,7 @@ class Dashboard extends Component {
     submitRegistration = async (newRegistration) => {
         const projectId = this.state.chosenProject.id;
 
-        await axios.post(`api/projects/${projectId}/registrations/`, newRegistration);
+        await axios.post(`api/projects/${projectId}/registrations/`, {...newRegistration, projectId});
         await this.loadProjects();
         
         this.chooseProject(projectId);
@@ -64,10 +65,8 @@ class Dashboard extends Component {
         
         await axios.delete(url);
         
-        const filterFn = r => r.id  !== registrationId;
-
         const chosenProject = this.state.chosenProject;
-        chosenProject.registrations = chosenProject.registrations.filter(filterFn);
+        chosenProject.registrations = chosenProject.registrations.filter(r => r.id  !== registrationId);
 
         this.setState(state => ({
             projects: [...state.projects.filter(p => p.id !== projectId), chosenProject],
@@ -135,6 +134,9 @@ class Dashboard extends Component {
             ? () => this.invoiceProject()
             : () => this.viewInvoice()
 
+        const RegFormModal = formModalBase(RegistrationModal, this.submitRegistration);
+        const ProjectFormModal = formModalBase(ProjectModal, this.submitProject);
+
         return (
             <Container className="mt-3">
                 <Row>
@@ -152,7 +154,7 @@ class Dashboard extends Component {
                             
                             </DropdownMenu>
                         </Dropdown>
-                        <ProjectModal submitProject={this.submitProject}/>
+                        <ProjectFormModal/>
                     </Col>
 
                     <Col sm="12" md="6">
@@ -172,21 +174,21 @@ class Dashboard extends Component {
                         isInvoiceable={isInvoiceable}
                         deleteRegistration={this.deleteRegistration}
                         >
-                        <RegistrationModal 
+                        <RegFormModal 
                             isInvoiceable={isInvoiceable} 
                             buttonText={registrationButtonText}
                             chosenProject={chosenProject}
-                            submitRegistration={this.submitRegistration}>
-                        </RegistrationModal>
+                            >
+                        </RegFormModal>
                     </RegistrationList>
                 )}
 
                 {!!this.state.invoice && (
-                <InvoiceModal 
-                    invoice={this.state.invoice} 
-                    viewInvoice={this.state.viewInvoice}
-                    toggleInvoice={this.toggleInvoice}>
-                </InvoiceModal>
+                    <InvoiceModal 
+                        invoice={this.state.invoice} 
+                        viewInvoice={this.state.viewInvoice}
+                        toggleInvoice={this.toggleInvoice}>
+                    </InvoiceModal>
             )}
             </Container>
         )

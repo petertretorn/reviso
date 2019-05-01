@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types'
 import {
   Button,
   Form,
@@ -9,83 +10,57 @@ import {
 
 import Modal from '../UI/ReactstrapModal'
 
-class RegistrationModal extends Component {
-    state = {
-        modalOpen: false
-    }
+function RegistrationModal(props) {
+    const header = `Log Time for ${props.chosenProject.projectName}`;
 
-    toggleRegistrationModal = () => {
-        this.setState({
-            modalOpen: !this.state.modalOpen
-        });
-    } 
+    return (
+        <Fragment>
+            <Button
+                color='dark'
+                onClick={props.toggleModal}
+                disabled={!props.isInvoiceable}
+                >
+                {props.buttonText}
+            </Button>
 
-    onFormInputChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
-    };
+            <Modal isOpen={props.isOpen} toggle={props.toggleModal} header={header}>
+                <Form onSubmit={props.submit}>
+                    <FormGroup>
+                        <Label for="date">Date</Label>
+                        <Input
+                            type="date"
+                            name="date"
+                            id="date"
+                            placeholder="choose date"
+                            onChange={props.onFormInputChange}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for='hours'>Hours</Label>
+                        <Input
+                            type='number'
+                            name='hours'
+                            id='hours'
+                            placeholder='hours to be invoiced'
+                            onChange={props.onFormInputChange}
+                        />
+                        <Button 
+                            disabled={!props.isInvoiceable}
+                            color='dark'
+                            style={{ marginTop: '2rem' }} block>
+                            {props.buttonText}
+                        </Button>
+                    </FormGroup>
+                </Form>
+            </Modal>
+        </Fragment>
+    )
+}
 
-    submit = async (e) => {
-        e.preventDefault();
-    
-        const projectId = this.props.chosenProject.id;
-
-        const newRegistration = {
-          hours: this.state.hours,
-          date: this.state.date,
-          projectId
-        };
-    
-        this.props.submitRegistration(newRegistration);
-        this.toggleRegistrationModal();
-    };
-
-    render() {
-
-        const header = `Log Time for ${this.props.chosenProject.projectName}`;
-
-        return (
-            <Fragment>
-                <Button
-                    color='dark'
-                    onClick={this.toggleRegistrationModal}
-                    disabled={!this.props.isInvoiceable}
-                    >
-                    {this.props.buttonText}
-                </Button>
-
-                <Modal isOpen={this.state.modalOpen} toggle={this.toggleRegistrationModal} header={header}>
-                    <Form onSubmit={this.submit}>
-                        <FormGroup>
-                            <Label for="date">Date</Label>
-                            <Input
-                                type="date"
-                                name="date"
-                                id="date"
-                                placeholder="choose date"
-                                onChange={this.onFormInputChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for='hours'>Hours</Label>
-                            <Input
-                                type='number'
-                                name='hours'
-                                id='hours'
-                                placeholder='hours to be invoiced'
-                                onChange={this.onFormInputChange}
-                            />
-                            <Button 
-                                disabled={!this.props.isInvoiceable}
-                                color='dark'
-                                style={{ marginTop: '2rem' }} block>
-                                {this.props.buttonText}
-                            </Button>
-                        </FormGroup>
-                    </Form>
-                </Modal>
-            </Fragment>
-        )
-    }
+RegistrationModal.propTypes = {
+    toggleModal: PropTypes.func.isRequired,
+    onFormInputChange: PropTypes.func.isRequired,
+    submit: PropTypes.func.isRequired
 }
 
 export default RegistrationModal;

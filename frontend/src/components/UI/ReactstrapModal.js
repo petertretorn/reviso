@@ -17,6 +17,9 @@ function ReactstrapModal(props) {
 }
 
 ReactstrapModal.propTypes = {
+  isOpen: PropTypes.bool,
+  toggle: PropTypes.func.isRequired,
+  header: PropTypes.string
 
 }
 

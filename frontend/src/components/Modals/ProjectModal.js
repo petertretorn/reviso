@@ -1,116 +1,88 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types'
 import {
   Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
   Form,
   FormGroup,
   Label,
   Input
 } from 'reactstrap';
 
-class ProjectModal extends Component {
-    state = {
-        isAddingNewProject: false
-    }
+import Modal from '../UI/ReactstrapModal'
 
-    toggleAddProject = () => {
-        this.setState(state => ({
-            isAddingNewProject: !state.isAddingNewProject
-        }));
-    }
+function ProjectModal(props) {
 
-    onFormInputChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
-    };
+    return (
+        <Fragment>
+            <Button
+                color='success'
+                onClick={props.toggleModal}
+                >New Project
+            </Button>
+            <Modal isOpen={props.isOpen} toggle={props.toggleModal} header='Create Project'>
+                <Form onSubmit={props.submit}>
+                    <FormGroup>
+                        <Label for="project">Name</Label>
+                        <Input
+                            type="text"
+                            name="project"
+                            id="project"
+                            onChange={props.onFormInputChange}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="customer">Customer</Label>
+                        <Input
+                            type="text"
+                            name="customer"
+                            id="customer"
+                            onChange={props.onFormInputChange}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="start">Project Start</Label>
+                        <Input
+                            type="date"
+                            name="start"
+                            id="start"
+                            onChange={props.onFormInputChange}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for='baseRate'>Hourly Base Rate</Label>
+                        <Input
+                            type='decimal'
+                            name='baseRate'
+                            id='baseRate'
+                            onChange={props.onFormInputChange}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for='vatRate'>Vat Rate</Label>
+                        <Input
+                            type='decimal'
+                            name='vatRate'
+                            id='vatRate'
+                            onChange={props.onFormInputChange}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Button 
+                            color='dark'
+                            style={{ marginTop: '2rem' }} block>
+                            Submit
+                        </Button>
+                    </FormGroup>
+                </Form>
+            </Modal>
+        </Fragment>
+    );
+}
 
-    submit = (e) => {
-        e.preventDefault();
-    
-        const newProject = {
-            project: this.state.project,
-            customer: this.state.customer,
-            start: this.state.start,
-            baseRate: this.state.baseRate,
-            vatRate: this.state.vatRate
-        };
-
-        this.props.submitProject(newProject);
-
-        this.toggleAddProject();
-    };
-
-    render() {
-        return (
-            <Fragment>
-                <Button
-                    color='success'
-                    onClick={this.toggleAddProject}
-                    >New Project
-                </Button>
-                <Modal isOpen={this.state.isAddingNewProject} toggle={this.toggleAddProject}>
-                    <ModalHeader toggle={this.toggleAddProject}>Create Project</ModalHeader>
-                    <ModalBody>
-                        <Form onSubmit={this.submit}>
-                            <FormGroup>
-                                <Label for="project">Name</Label>
-                                <Input
-                                    type="text"
-                                    name="project"
-                                    id="project"
-                                    onChange={this.onFormInputChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="customer">Customer</Label>
-                                <Input
-                                    type="text"
-                                    name="customer"
-                                    id="customer"
-                                    onChange={this.onFormInputChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="start">Project Start</Label>
-                                <Input
-                                    type="date"
-                                    name="start"
-                                    id="start"
-                                    onChange={this.onFormInputChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for='baseRate'>Hourly Base Rate</Label>
-                                <Input
-                                    type='decimal'
-                                    name='baseRate'
-                                    id='baseRate'
-                                    onChange={this.onFormInputChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for='vatRate'>Vat Rate</Label>
-                                <Input
-                                    type='decimal'
-                                    name='vatRate'
-                                    id='vatRate'
-                                    onChange={this.onFormInputChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <Button 
-                                    color='dark'
-                                    style={{ marginTop: '2rem' }} block>
-                                    Submit
-                                </Button>
-                            </FormGroup>
-                        </Form>
-                    </ModalBody>
-                    </Modal>
-                </Fragment>
-        );
-    }
+ProjectModal.propTypes = {
+    toggleModal: PropTypes.func.isRequired,
+    onFormInputChange: PropTypes.func.isRequired,
+    submit: PropTypes.func.isRequired
 }
 
 export default ProjectModal;
